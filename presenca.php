@@ -1,9 +1,20 @@
 <?php
 require_once "config.php";
+date_default_timezone_set('America/Sao_Paulo');
  
-$nome = $matricula = $dia = "";
-$nome_err = $matricula_err = $dia_err = "";
- 
+$nome = $matricula = $dia = $turno = "";
+$nome_err = $matricula_err =  "";
+
+$turnoAux = date("H");
+
+if($turnoAux < 12){
+    $turno = "Manhã";
+}else if($turnoAux >= 13 && $turnoAux < 18){
+    $turno = "Tarde";
+}else{
+    $turno = "Noite";
+}
+
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     $input_nome = trim($_POST["nome"]);
     if(empty($input_nome)){
@@ -18,20 +29,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $matricula = $input_matricula;
 
-    $param_dia = date("Y-m-d");
-    
-    if(empty($nome_err) && empty($matricula_err) && empty($dia_err)){
-        $sql = "INSERT INTO usuarios (nome, matricula, dia) VALUES (?, ?, ?)";
+    if(empty($nome_err) && empty($matricula_err)){
+        $sql = "INSERT INTO usuarios (nome, matricula, turno) VALUES (?, ?, ?)";
          
         if($stmt = mysqli_prepare($link, $sql)){
-            mysqli_stmt_bind_param($stmt, "ssd", $param_nome, $param_matricula, $param_dia);
+            mysqli_stmt_bind_param($stmt, "sis", $param_nome, $param_matricula, $param_turno);
             
            
             $param_nome = $nome;
             $param_matricula = $matricula;
-            $param_dia = $dia;
-
-           
+            $param_turno = $turno;
+          
             if(mysqli_stmt_execute($stmt)){
    
                 header("location: presenca.php");
@@ -75,12 +83,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <span class="invalid-feedback"><?php echo $nome_err;?></span>
                         </div>
                         <div class="form-group">
-                            <label>Matricula</label>
+                            <label>Matrícula (opcional)</label>
                             <input type="number" name="matricula" class="form-control <?php echo (!empty($matricula_err)) ? 'is-invalid' : ''; ?>"><?php echo $matricula; ?></input>
                             <span class="invalid-feedback"><?php echo $matricula_err;?></span>
                         </div>
               
-                        <input type="submit" class="btn btn-primary" value="Submit">
+                        <input type="submit" class="btn btn-primary" value="Enviar">
                         <a href="index.php" class="btn btn-secondary ml-2">Ver Lista</a>
                     </form>
                 </div>
