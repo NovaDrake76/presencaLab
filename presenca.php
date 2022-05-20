@@ -2,8 +2,8 @@
 require_once "config.php";
 date_default_timezone_set('America/Sao_Paulo');
  
-$nome = $matricula = $dia = $turno = "";
-$nome_err = $matricula_err =  "";
+$nome = $matricula = $dia = $turno = $curso = "";
+$nome_err = $matricula_err =  $curso_err = "";
 
 $turnoAux = date("H");
 
@@ -26,19 +26,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     
     $input_matricula = trim($_POST["matricula"]);
-
     $matricula = $input_matricula;
+    
+    $input_curso = trim($_POST["curso"]);
+    $curso = $input_curso;
 
     if(empty($nome_err) && empty($matricula_err)){
-        $sql = "INSERT INTO usuarios (nome, matricula, turno) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO usuarios (nome, matricula, turno, curso) VALUES (?, ?, ?, ?)";
          
         if($stmt = mysqli_prepare($link, $sql)){
-            mysqli_stmt_bind_param($stmt, "sis", $param_nome, $param_matricula, $param_turno);
+            mysqli_stmt_bind_param($stmt, "siss", $param_nome, $param_matricula, $param_turno, $param_curso);
             
            
             $param_nome = $nome;
             $param_matricula = $matricula;
             $param_turno = $turno;
+            $param_curso = $curso;
           
             if(mysqli_stmt_execute($stmt)){
    
@@ -87,9 +90,35 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <input type="number" name="matricula" class="form-control <?php echo (!empty($matricula_err)) ? 'is-invalid' : ''; ?>"><?php echo $matricula; ?></input>
                             <span class="invalid-feedback"><?php echo $matricula_err;?></span>
                         </div>
+                        
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="pedagogia" id="pedagogia">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Faço Pedagogia
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="educacao" id="educacao">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Faço Pós-Graduação em Educação
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="outro" id="outro">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Faço outro curso:
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            
+                            <input type="text" name="curso" placeholder="Qual o curso?" class="form-control"></input>
+                            <span class="invalid-feedback"><?php echo $curso_err;?></span>
+                        </div>
               
-                        <input type="submit" class="btn btn-primary" value="Enviar">
+                        <div class="mt-3">
+                            <input type="submit" class="btn btn-primary " value="Enviar">
                         <a href="index.php" class="btn btn-secondary ml-2">Ver Lista</a>
+                        </div>
                     </form>
                 </div>
             </div>        

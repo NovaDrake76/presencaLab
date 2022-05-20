@@ -46,6 +46,7 @@
                                         echo "<th>Matrícula</th>";
                                         echo "<th>Turno</th>";
                                         echo "<th>Data</th>";
+                                        echo "<th>Curso</th>";
                                     echo "</tr>";
                                 echo "</thead>";
                                 echo "<tbody>";
@@ -55,6 +56,7 @@
                                         echo "<td>" . $row['matricula'] . "</td>";
                                         echo "<td>" . $row['turno'] . "</td>";
                                         echo "<td>" . $row['dia'] . "</td>";
+                                        echo "<td>" . $row['curso'] . "</td>";
 
                                     echo "</tr>";
                                 }
