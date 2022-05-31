@@ -92,27 +92,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input type="number" name="matricula" class="form-control <?php echo (!empty($matricula_err)) ? 'is-invalid' : ''; ?>"><?php echo $matricula; ?></input>
                             <span class="invalid-feedback"><?php echo $matricula_err; ?></span>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="pedagogia">
-                            <label class="form-check-label" for="pedagogia">
-                                Faço Pedagogia
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="graduacao">
-                            <label class="form-check-label" for="graduacao">
-                                Faço Pós-Graduação em Educação
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="outroCurso">
-                            <label class="form-check-label" for="outroCurso">
-                                Faço outro curso
-                            </label>
-                        </div>
-                        <div class="form-group mt-2" id="outro" style="display: none">
 
-                            <input type="text" name="curso" placeholder="Outro curso" class="form-control"> </input>
+                        <div class="form-group mt-2" id="outro">
+
+                            <input type="text" name="curso" placeholder="Qual seu curso?" class="form-control"> </input>
                             <span class="invalid-feedback"><?php echo $curso_err; ?></span>
                         </div>
 
@@ -128,31 +111,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 
 </html>
-
-<script>
-    const pedagogia = document.querySelector('#pedagogia');
-    const graduacao = document.querySelector('#graduacao');
-    const outro = document.querySelector('#outroCurso');
-
-
-    pedagogia.addEventListener('change', function() {
-        if (this.checked) {
-            console.log("Pedagogia");
-        }
-    });
-
-    graduacao.addEventListener('change', function() {
-        if (this.checked) {
-            console.log("Graduação em Educação")
-        }
-    })
-
-    outro.addEventListener('change', function() {
-        if (this.checked) {
-            document.getElementById("outro").style.display = "flex";
-        } else {
-            document.getElementById("outro").style.display = "none";
-
-        }
-    })
-</script>
